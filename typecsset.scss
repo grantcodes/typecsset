@@ -18,6 +18,15 @@
 // untouched because Typecsset will assign them automatically based on what
 // you’ve told it.
 
+// Enable all features by default
+$typecsset-base:                true !default;
+$typecsset-headings:            true !default;
+$typecsset-lists:               true !default;
+$typecsset-paragraphs:          true !default;
+$typecsset-code:                true !default;
+$typecsset-quotes:              true !default;
+$typecsset-tables:              true !default;
+
 // What would you like your base font-size to be? Define in pixels; the library
 // will convert measurements to the most appropriate units (rems or unitless).
 $typecsset-base-font-size:      16px !default;
@@ -129,22 +138,24 @@ $typecsset-magic-ratio:         $typecsset-base-line-height / $typecsset-base-fo
  */
 }
 
-html {
-    font-size: $typecsset-base-font-size / 16px + em; /* [1] */
-    line-height: $typecsset-base-line-height / $typecsset-base-font-size; /* [2] */
+@if $typecsset-base == true {
+    html {
+        font-size: $typecsset-base-font-size / 16px + em; /* [1] */
+        line-height: $typecsset-base-line-height / $typecsset-base-font-size; /* [2] */
 
-    // If you have chosen to display a baseline grid, we turn it on here.
-    @if $typecsset-show-baseline == true {
+        // If you have chosen to display a baseline grid, we turn it on here.
+        @if $typecsset-show-baseline == true {
 
-        $typecsset-baseline-size: typecsset-strip-units($typecsset-magic-number);
+            $typecsset-baseline-size: typecsset-strip-units($typecsset-magic-number);
 
-        background-image: url(http://basehold.it/i/#{$typecsset-baseline-size}); /* [3] */
+            background-image: url(http://basehold.it/i/#{$typecsset-baseline-size}); /* [3] */
+        }
+
     }
 
-}
-
-body {
-    margin: 0;
+    body {
+        margin: 0;
+    }
 }
 
 
@@ -154,34 +165,36 @@ body {
 /*------------------------------------*\
     #HEADINGS
 \*------------------------------------*/
-h1 {
-    @extend %typecsset-vertical-rhythm;
-    @include typecsset-font-size($typecsset-h1-size);
-}
+@if $typecsset-headings == true {
+    h1 {
+        @extend %typecsset-vertical-rhythm;
+        @include typecsset-font-size($typecsset-h1-size);
+    }
 
-h2 {
-    @extend %typecsset-vertical-rhythm;
-    @include typecsset-font-size($typecsset-h2-size);
-}
+    h2 {
+        @extend %typecsset-vertical-rhythm;
+        @include typecsset-font-size($typecsset-h2-size);
+    }
 
-h3 {
-    @extend %typecsset-vertical-rhythm;
-    @include typecsset-font-size($typecsset-h3-size);
-}
+    h3 {
+        @extend %typecsset-vertical-rhythm;
+        @include typecsset-font-size($typecsset-h3-size);
+    }
 
-h4 {
-    @extend %typecsset-vertical-rhythm;
-    @include typecsset-font-size($typecsset-h4-size);
-}
+    h4 {
+        @extend %typecsset-vertical-rhythm;
+        @include typecsset-font-size($typecsset-h4-size);
+    }
 
-h5 {
-    @extend %typecsset-vertical-rhythm;
-    @include typecsset-font-size($typecsset-h5-size);
-}
+    h5 {
+        @extend %typecsset-vertical-rhythm;
+        @include typecsset-font-size($typecsset-h5-size);
+    }
 
-h6 {
-    @extend %typecsset-vertical-rhythm;
-    @include typecsset-font-size($typecsset-h6-size);
+    h6 {
+        @extend %typecsset-vertical-rhythm;
+        @include typecsset-font-size($typecsset-h6-size);
+    }
 }
 
 
@@ -191,14 +204,16 @@ h6 {
 /*------------------------------------*\
     #LISTS
 \*------------------------------------*/
-ul, ol, dd {
-    @extend %typecsset-vertical-rhythm;
-    @include typecsset-space(margin-left);
-}
+@if $typecsset-lists == true {
+    ul, ol, dd {
+        @extend %typecsset-vertical-rhythm;
+        @include typecsset-space(margin-left);
+    }
 
-li > ul,
-li > ol {
-    margin-bottom: 0;
+    li > ul,
+    li > ol {
+        margin-bottom: 0;
+    }
 }
 
 
@@ -208,26 +223,28 @@ li > ol {
 /*------------------------------------*\
     #PARAGRAPHS
 \*------------------------------------*/
-p {
-    @extend %typecsset-vertical-rhythm;
+@if $typecsset-paragraphs == true {
+    p {
+        @extend %typecsset-vertical-rhythm;
 
-    @if $typecsset-indented-paragraphs == true {
+        @if $typecsset-indented-paragraphs == true {
 
-        + p {
-            @include typecsset-space(text-indent);
-            margin-top: -$typecsset-magic-number;
-            margin-top: -$typecsset-magic-ratio + rem;
+            + p {
+                @include typecsset-space(text-indent);
+                margin-top: -$typecsset-magic-number;
+                margin-top: -$typecsset-magic-ratio + rem;
+            }
+
         }
 
     }
 
-}
-
-/**
- * Not strictly a paragraph, but probably doesn’t need its own section.
- */
-address {
-    @extend %typecsset-vertical-rhythm;
+    /**
+     * Not strictly a paragraph, but probably doesn’t need its own section.
+     */
+    address {
+        @extend %typecsset-vertical-rhythm;
+    }
 }
 
 
@@ -237,19 +254,21 @@ address {
 /*------------------------------------*\
     #CODE
 \*------------------------------------*/
-pre {
-    @extend %typecsset-vertical-rhythm;
-}
+@if $typecsset-code == true {
+    pre {
+        @extend %typecsset-vertical-rhythm;
+    }
 
-/**
- * 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
- *    font-size smaller than 1em.
- */
-code,
-kbd,
-pre,
-samp {
-    font-family: monospace, monospace; /* [1] */
+    /**
+     * 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
+     *    font-size smaller than 1em.
+     */
+    code,
+    kbd,
+    pre,
+    samp {
+        font-family: monospace, monospace; /* [1] */
+    }
 }
 
 
@@ -259,74 +278,76 @@ samp {
 /*------------------------------------*\
     #QUOTES
 \*------------------------------------*/
-/**
- * 1. Hang the opening quote of the blockquote.
- */
-blockquote {
-    text-indent: -0.41em; /* [1] */
-}
+@if $typecsset-quotes == true {
+    /**
+     * 1. Hang the opening quote of the blockquote.
+     */
+    blockquote {
+        text-indent: -0.41em; /* [1] */
+    }
 
-/**
- * Set up quote marks on quoting elements. This is very English-based, so we are
- * using “, ”, ‘, and ’ quotes.
- */
-blockquote {
-    @extend %typecsset-vertical-rhythm;
-    quotes: "“" "”";
-    @include typecsset-space(margin-left);
+    /**
+     * Set up quote marks on quoting elements. This is very English-based, so we are
+     * using “, ”, ‘, and ’ quotes.
+     */
+    blockquote {
+        @extend %typecsset-vertical-rhythm;
+        quotes: "“" "”";
+        @include typecsset-space(margin-left);
 
-    p {
+        p {
+
+            &:before {
+                content: "“";
+                content: open-quote;
+            }
+
+            &:after {
+                content: "";
+                content: no-close-quote;
+            }
+
+            &:last-of-type:after {
+                content: "”";
+                content: close-quote;
+            }
+
+        }
+
+    }
+
+    q   {
+        quotes: "‘" "’" "“" "”";
 
         &:before {
-            content: "“";
+            content: "‘";
             content: open-quote;
         }
 
         &:after {
-            content: "";
-            content: no-close-quote;
+            content: "’";
+            content: close-quote;
         }
 
-        &:last-of-type:after {
+        q:before {
+            content: "“";
+            content: open-quote;
+        }
+
+        q:after{
             content: "”";
             content: close-quote;
         }
 
+        /**
+         * If an element opens with an inline quote, let’s hang that.
+         */
+        &:first-child {
+            display: inline-block;
+            text-indent: -0.22em;
+        }
+
     }
-
-}
-
-q   {
-    quotes: "‘" "’" "“" "”";
-
-    &:before {
-        content: "‘";
-        content: open-quote;
-    }
-
-    &:after {
-        content: "’";
-        content: close-quote;
-    }
-
-    q:before {
-        content: "“";
-        content: open-quote;
-    }
-
-    q:after{
-        content: "”";
-        content: close-quote;
-    }
-
-    /**
-     * If an element opens with an inline quote, let’s hang that.
-     */
-    &:first-child {
-        display: inline-block;
-        text-indent: -0.22em;
-    }
-
 }
 
 
@@ -336,17 +357,19 @@ q   {
 /*------------------------------------*\
     #TABLES
 \*------------------------------------*/
-/**
- * Crude table styles; tables are very difficult to keep on the baseline.
- */
-table {
-    @extend %typecsset-vertical-rhythm;
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+@if $typecsset-tables == true {
+    /**
+     * Crude table styles; tables are very difficult to keep on the baseline.
+     */
+    table {
+        @extend %typecsset-vertical-rhythm;
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
 
-th,
-td {
-    padding: $typecsset-base-line-height / 2;
+    th,
+    td {
+        padding: $typecsset-base-line-height / 2;
+    }
 }
